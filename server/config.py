@@ -9,7 +9,7 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///models.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = b'\x17S\xb1EB\xd7\xa5=\xb0\xa0\t\x90\xe3ZQ\x80'
+app.config['SECRET_KEY'] = b'\x17S\xb1EB\xd7\xa5=\xb0\xa0\t\x90\xe3ZQ\x80'
 md = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })

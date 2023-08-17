@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, { useContext, useState } from 'react';
 import {useHistory} from 'react-router-dom';
-import { UserContext, userContext } from './context/user';
+import { UserContext} from './context/user';
 
 function App() {
 
@@ -16,15 +16,18 @@ function App() {
     fetch("/login", {
       method: "POST",
       headers: { "Content-Type" : "application/json" },
-      body: JSON.stringify({ username : password }),
+      body: JSON.stringify({ username, password }),
     }).then((r) => {
       if(r.ok) {
         r.json().then((user) => {
           setUser(user);
           history.push('/home')
+          console.log('Successful Login')
         });
       } else {
         console.log('Unable to Login')
+        console.log(username)
+        console.log(password)
       }
     });
   }
