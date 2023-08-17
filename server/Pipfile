@@ -14,6 +14,7 @@ sqlalchemy-serializer = "*"
 ipdb = "*"
 flask-migrate = "*"
 serializer = "*"
+bcrypt = "*"
 
 [dev-packages]
 

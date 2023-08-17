@@ -2,6 +2,9 @@ from config import app, api
 from models import db, User
 from flask import make_response, session, request, jsonify
 from flask_restful import Resource
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt( app )
 
 class Welcome(Resource):
     def get(self):
