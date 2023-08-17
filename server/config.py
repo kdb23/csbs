@@ -12,3 +12,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 md = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
+
+db = SQLAlchemy(metadata = md)
+migrate = Migrate( app, db)
+
+db.init_app(app)
+api = Api(app)
+
+CORS(app)
+
+bcrypt = Bcrypt( app )
