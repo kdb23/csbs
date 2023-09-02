@@ -7,6 +7,7 @@ import { UserContext} from './context/user';
 function App() {
 
   const { setUser } = useContext(UserContext)
+  
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const history = useHistory();
@@ -16,7 +17,7 @@ function App() {
     fetch("/login", {
       method: "POST",
       headers: { "Content-Type" : "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({username,password}),
     }).then((r) => {
       if(r.ok) {
         r.json().then((user) => {
@@ -26,8 +27,6 @@ function App() {
         });
       } else {
         console.log('Unable to Login')
-        console.log(username)
-        console.log(password)
       }
     });
   }
