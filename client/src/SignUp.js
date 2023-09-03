@@ -20,7 +20,7 @@ function SignUp() {
                 if (usernames.includes(username)) {
                     window.alert("howdy")
                 } else if (password.length < 1) {
-                    wiindown.alert("hoedy")
+                    window.alert("hoedy")
                 }
                 fetch("/users", {
                     method: "POST",

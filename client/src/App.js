@@ -3,11 +3,12 @@ import './App.css';
 import React, { useContext, useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import { UserContext} from './context/user';
+import SignUp from './SignUp';
 
 function App() {
 
   const { setUser } = useContext(UserContext)
-  
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const history = useHistory();
@@ -60,6 +61,7 @@ function App() {
           />
         </div>
         <button type='submit'>Login</button>
+        {/* <button><SignUp /></button> */}
         </form>
       </header>
     </div>

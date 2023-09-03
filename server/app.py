@@ -1,10 +1,7 @@
 from config import app, api
 from models import db, User
-from flask import make_response, session, request, jsonify
+from flask import make_response, session, request
 from flask_restful import Resource
-from flask_bcrypt import Bcrypt
-
-bcrypt = Bcrypt( app )
 
 class Welcome(Resource):
     def get(self):
@@ -18,21 +15,22 @@ class Login(Resource):
         password = data['password']
 
         user = User.query.filter(User.username == username).first()
-        session['user_id'] = user.id
-        if user:
+
+        if user is None:
+            return {'error': 'User not found'}, 404 
+        
+        if user and user.authenticate(password):
+            print(user)
+            print(user.authenticate)
+            session['user_id'] = user.id
             return user.to_dict(), 200
-        print(user)
-        return make_response({'error': '401 Unauthroized'}, 401)
-
-api.add_resource(Login, '/login', endpoint = 'login')
-
+        return {'error': '401 Unauthorized'}, 401
+    
 class UsersList(Resource):
     def get(self):
         list = User.query.all()
         list_dict = [l.to_dict() for l in list]
         return make_response(list_dict, 200)
-    
-api.add_resource(UsersList, '/users/list', endpoint='users_list')
 
 class UserResource(Resource):
     def post(self):
@@ -54,15 +52,11 @@ class UserResource(Resource):
         session['user_id'] = user.id
 
         return user.to_dict(), 201
-    
-api.add_resource(UserResource, '/users', endpoint ='users')
 
 class Logout(Resource):
     def delete(self):
         session['user_id'] = None
         return make_response({}, 204)
-    
-api.add_resource(Logout, '/logout', endpoint = 'logout')
     
 class CheckSession(Resource):
     def get(self):
@@ -70,7 +64,12 @@ class CheckSession(Resource):
             user = User.query.filter(User.id == session['user_id']).first()
             return user.to_dict(), 200
         return make_response({'error' : 'Please Sign Up to Login'}, 401)
-    
+
+
+api.add_resource(Login, '/login', endpoint = 'login')
+api.add_resource(UserResource, '/users', endpoint ='users')
+api.add_resource(UsersList, '/users/list', endpoint='users_list')
+api.add_resource(Logout, '/logout', endpoint = 'logout')
 api.add_resource(CheckSession, '/check_session', endpoint = 'check_session')
 
 if __name__ == '__main__':
