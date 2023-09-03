@@ -2,6 +2,9 @@ from config import app, api
 from models import db, User
 from flask import make_response, session, request
 from flask_restful import Resource
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt( app )
 
 class Welcome(Resource):
     def get(self):
@@ -14,17 +17,24 @@ class Login(Resource):
         username = data['username']
         password = data['password']
 
-        user = User.query.filter(User.username == username).first()
+        user = User.query.filter_by(username='test').first()
 
-        if user is None:
-            return {'error': 'User not found'}, 404 
+        if user and user.authenticate('admin123'):
+            print("Login Successful")
+        else:
+            print("Login Failed")
+
+        # user = User.query.filter(User.username == username).first()
+
+        # if user is None:
+        #     return {'error': 'User not found'}, 404 
         
-        if user and user.authenticate(password):
-            print(user)
-            print(user.authenticate)
-            session['user_id'] = user.id
-            return user.to_dict(), 200
-        return {'error': '401 Unauthorized'}, 401
+        # if user and user.authenticate(password):
+        #     print(user)
+        #     print(user.authenticate)
+        #     session['user_id'] = user.id
+        #     return user.to_dict(), 200
+        # return {'error': '401 Unauthorized'}, 401
     
 class UsersList(Resource):
     def get(self):
