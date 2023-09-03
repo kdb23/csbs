@@ -19,10 +19,18 @@ class Login(Resource):
 
         user = User.query.filter_by(username='test').first()
 
-        if user and user.authenticate('admin123'):
-            print("Login Successful")
+        if user:
+            stored_hash = user.password_hash
+            provided_password = 'admin123'
+
+            # Compare the provided password with the stored hash
+            if bcrypt.check_password_hash(stored_hash, provided_password.encode('utf-8')):
+                print("Login Successful")
+            else:
+                print("Login Failed: Passwords do not match")
         else:
-            print("Login Failed")
+            print("User 'test' not found")
+
 
         # user = User.query.filter(User.username == username).first()
 
