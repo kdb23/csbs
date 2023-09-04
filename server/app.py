@@ -115,5 +115,29 @@ class MemberById(Resource):
     
 api.add_resource(MemberById, '/members/<int:id>')
 
+class Prayers(Resource):
+    def get(self):
+        prayers = Prayer.query.all()
+        prayer_list = []
+        for p in prayers:
+            p_dict = {
+                'id': p.id,
+                'member_id': p.member_id,
+                'description': p.description
+            }
+            prayer_list.append(p_dict)
+        return make_response(prayer_list, 200)
+    
+api.add_resource(Prayers, '/prayer_request')
+
+class PrayerById(Resource):
+    def get(self, id):
+        prayer = Prayer.query.filter_by(id = id).first()
+        if not prayer:
+            return make_response({'error': '404 Prayer Request Not Found'}, 404)
+        return make_response(prayer.to_dict(), 200)
+    
+api.add_resource(PrayerById, '/prayer_request/<int:id>')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
