@@ -49,8 +49,6 @@ class Member(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
     created_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    prayers = db.relationship('Prayer', backref = 'member')
-
     @validates('name')
     def validate_name(self, key, value):
         if not value:

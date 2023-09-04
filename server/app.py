@@ -106,5 +106,14 @@ class Members(Resource):
     
 api.add_resource(Members, '/members')
 
+class MemberById(Resource):
+    def get(self, id):
+        member = Member.query.filter_by(id = id).first()
+        if not member:
+            return make_response({'error': '404 Church Member Not Found'}, 404)
+        return make_response(member.to_dict(), 200)
+    
+api.add_resource(MemberById, '/members/<int:id>')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
