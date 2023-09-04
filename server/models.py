@@ -37,4 +37,39 @@ class User(db.Model, SerializerMixin):
         print(f"Authentication Result: {is_authenticated}")
 
         return is_authenticated
+    
+
+class Member(db.Model, SerializerMixin):
+    __tablename__ = "members"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    address = db.Column(db.String)
+    phone = db.Column(db.Integer, nullable=False)
+    updated_at = db.Column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    prayers = db.relationship('Prayer', backref = 'member')
+
+    @validates('name')
+    def validate_name(self, key, value):
+        if not value:
+            raise ValueError('Name is required to create member')
+        return value
+    
+    @validates('phone')
+    def validate_name(self, key, value):
+        if not value:
+            raise ValueError('Phone number is required to create member')
+        return value
+
+class Prayer(db.Model, SerializerMixin):
+    __tablename__ = "prayers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
+    description = db.Column(db.String)
+    updated_at = db.Column(db.DateTime, server_default=db.func.now())
+    created_at = db.Column(db.DateTime, onupdate=db.func.now())
+
 
