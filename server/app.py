@@ -1,5 +1,5 @@
 from config import app, api
-from models import db, User
+from models import db, User, Member, Prayer
 from flask import make_response, session, request
 from flask_restful import Resource
 from flask_bcrypt import Bcrypt
@@ -89,6 +89,22 @@ api.add_resource(UserResource, '/users', endpoint ='users')
 api.add_resource(UsersList, '/users/list', endpoint='users_list')
 api.add_resource(Logout, '/logout', endpoint = 'logout')
 api.add_resource(CheckSession, '/check_session', endpoint = 'check_session')
+
+class Members(Resource):
+    def get(self):
+        members = Member.query.all()
+        member_list = []
+        for m in members:
+            m_dict = {
+                'id': m.id,
+                'name': m.name,
+                'address': m.address,
+                'phone': m.phone
+            }
+            member_list.append(m_dict)
+        return make_response(member_list, 200)
+    
+api.add_resource(Members, '/members')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
