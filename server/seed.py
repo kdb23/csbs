@@ -1,6 +1,8 @@
 from faker import Faker
+from random import choice as rc
 from config import app
 from models import db, Prayer, Member
+import random
 
 fake = Faker()
 
@@ -9,7 +11,7 @@ def make_member():
 
     members = []
 
-    for i in range(50):
+    for i in range(25):
         member = Member(
             name = fake.name(),
             address = fake.address(),
@@ -23,13 +25,15 @@ def make_prayers():
     Prayer.query.delete()
 
     members = Member.query.all()
-
     prayers = []
 
+    description = ["Unspoken", "Family Support", "Martial Issues", "Financial Concern", "Health Concern" ]
+    
     for member in members:
         if not Prayer.query.filter_by(member_id = member.id).first():
             prayer = Prayer(
                 member_id = member.id,
+                description = random.choice(description)
             )
             prayers.append(prayer)
     db.session.add_all(prayers)
