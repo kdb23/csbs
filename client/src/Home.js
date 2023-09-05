@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Router, Route, Switch } from 'react-router-dom'
+import PeopleContainer from './PeopleContainer';
+import NavBar from './NavBar';
 
 function Home() {
 
@@ -16,7 +19,8 @@ function Home() {
 
     return(
         <div>
-            <h1>HOMEPAGE</h1>
+            <PeopleContainer members={members} />
+            <NavBar />
         </div>
     )
 }
