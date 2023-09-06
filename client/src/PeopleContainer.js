@@ -10,9 +10,13 @@ function PeopleContainer({members}) {
         setSearchTerm(newSearchTerm)
     }
 
+    const filteredMembers = members.filter(memberObj => {
+        return memberObj.name.toLowerCase().includes(searchTerm)
+    })
+
     console.log('Members:', members)
 
-    const persons = members ? members.map((mObj) => {
+    const persons = filteredMembers ? filteredMembers.map((mObj) => {
         return <People
                     key = {mObj.id}
                     name = {mObj.name}
