@@ -196,6 +196,14 @@ class PrayerById(Resource):
         db.session.commit()
         return make_response(concern.to_dict(), 202)
     
+    def delete(self, id):
+        doomed = Prayer.query.filter_by(id = id).first()
+        if not doomed:
+            return make_response({'error': '404 Unable to Process Request'}, 404)
+        db.session.delete(doomed)
+        db.session.commit()
+        return make_response( {}, 204)
+    
 api.add_resource(PrayerById, '/prayer_request/<int:id>')
 
 if __name__ == '__main__':
