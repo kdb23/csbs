@@ -24,15 +24,16 @@ function PeopleContainer({members}) {
     console.log('Persons:', persons)
 
     return(
-        <div>
+        <div className="main">
             <h1>Search Bar Practice</h1>
-            <form
+                <div className="search">
+            <input
                 type='text'
                 id='search'
                 placheholder=' YO PLACE THAT INFORMATION YOU LOOKIN FOR HERE'
                 onChange={handleSearch}
             />
-       
+                </div>
             {persons}
         </div>
     )
