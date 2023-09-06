@@ -10,9 +10,13 @@ function PeopleContainer({members}) {
         setSearchTerm(newSearchTerm)
     }
 
-    const filteredMembers = members.filter(memberObj => {
-        return memberObj.name.toLowerCase().includes(searchTerm)
-    })
+    const filteredMembers = members.filter((memberObj) => {
+        const phoneString = String(memberObj.phone).toLowerCase();
+        return (
+          memberObj.name.toLowerCase().includes(searchTerm) ||
+          phoneString.includes(searchTerm)
+        );
+      });    
 
     console.log('Members:', members)
 
