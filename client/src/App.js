@@ -1,8 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
 import React, {useState, useEffect} from 'react';
 import {Route, Switch} from 'react-router-dom';
-import { UserContext} from './context/user';
 import Home from './Home'
 import PeopleContainer from './PeopleContainer';
 import PrayerContainer from './PrayerContainer';

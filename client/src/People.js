@@ -1,12 +1,13 @@
 import React from 'react'
+import {Row, Col} from 'react-bootstrap'
 
 function People({name, address, phone}) {
     return(
-        <div>
-            <p> Name: {name} </p>
-            <p> Addres: {address} </p>
-            <p> Phone Number: {phone} </p>
-        </div>
+        <Row>
+            <Col> Name: {name} </Col>
+            <Col> Phone Number: {phone} </Col>
+            <Col> Addres: {address} </Col>
+        </Row>
     )
 }
 
