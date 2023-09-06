@@ -184,6 +184,18 @@ class PrayerById(Resource):
             return make_response({'error': '404 Prayer Request Not Found'}, 404)
         return make_response(prayer.to_dict(), 200)
     
+    def patch(self, id):
+        data = request.get_json()
+        concern = Prayer.query.filter_by(id = id).first()
+        try:
+            for new_info in data:
+                setattr(concern, new_info, data[new_info])
+        except:
+            return make_response({'error': 'Unable to Process Request'}, 400)
+        db.session.add(concern)
+        db.session.commit()
+        return make_response(concern.to_dict(), 202)
+    
 api.add_resource(PrayerById, '/prayer_request/<int:id>')
 
 if __name__ == '__main__':
