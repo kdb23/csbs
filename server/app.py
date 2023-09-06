@@ -162,6 +162,19 @@ class Prayers(Resource):
             prayer_list.append(p_dict)
         return make_response(prayer_list, 200)
     
+    def post(self):
+        data = request.get_json()
+        try:
+            new_prayer = Prayer(
+                member_id = data['member_id'],
+                description = data['description']
+            )
+            db.session.add(new_prayer)
+            db.session.commit()
+        except ValueError:
+            return make_response({'error' : '400 Unable to Process Request'})
+        return make_response(new_prayer.to_dict(), 201 )
+    
 api.add_resource(Prayers, '/prayer_request')
 
 class PrayerById(Resource):
