@@ -104,6 +104,20 @@ class Members(Resource):
             member_list.append(m_dict)
         return make_response(member_list, 200)
     
+    def post(self):
+        data = request.get_json()
+        try:
+            new_member = Member(
+                name = data['name'],
+                address = data['address'],
+                phone = data['phone']
+            )
+            db.session.add(new_member)
+            db.session.commit()
+        except ValueError:
+            return make_response({'error' : '400 Unable to Process Request'})
+        return make_response(new_member.to_dict(), 201 )
+    
 api.add_resource(Members, '/members')
 
 class MemberById(Resource):

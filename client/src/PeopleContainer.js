@@ -29,7 +29,7 @@ function PeopleContainer({members}) {
 
     return(
         <div className="main">
-            <h1>Search Bar Practice</h1>
+            <h1>Member Information Here</h1>
                 <div className="search">
             <input
                 type='text'
