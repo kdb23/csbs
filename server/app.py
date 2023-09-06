@@ -127,6 +127,26 @@ class MemberById(Resource):
             return make_response({'error': '404 Church Member Not Found'}, 404)
         return make_response(member.to_dict(), 200)
     
+    def patch(self, id):
+        data = request.get_json()
+        person = Member.query.filter_by(id = id).first()
+        try:
+            for new_info in data:
+                setattr(person, new_info, data[new_info])
+        except:
+            return make_response({'error': 'Unable to Process Request'}, 400)
+        db.session.add(person)
+        db.session.commit()
+        return make_response(person.to_dict(), 202)
+    
+    def delete(self, id):
+        doomed = Member.query.filter_by(id = id).first()
+        if not doomed:
+            return make_response({'error': '404 Unable to Process Request'}, 404)
+        db.session.delete(doomed)
+        db.session.commit()
+        return make_response( {}, 204)
+    
 api.add_resource(MemberById, '/members/<int:id>')
 
 class Prayers(Resource):
