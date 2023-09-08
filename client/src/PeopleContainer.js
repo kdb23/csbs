@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import People from './People'
+import {Container, Row, Form} from 'react-bootstrap'
 
 function PeopleContainer({members}) {
 
@@ -32,18 +33,18 @@ function PeopleContainer({members}) {
     console.log('Persons:', persons)
 
     return(
-        <div className="main">
+        <Container className="mt-5">
             <h1>Member Information Here</h1>
-                <div className="search">
-            <input
-                type='text'
-                id='search'
-                placheholder=' YO PLACE THAT INFORMATION YOU LOOKIN FOR HERE'
-                onChange={handleSearch}
-            />
-                </div>
+            <Row>
+                <Form.Control
+                    type='text'
+                    id='search'
+                    placeholder='YO PLACE THAT INFORMATION YOU LOOKIN FOR HERE'
+                    onChange={handleSearch}
+                />
+            </Row>
             {persons}
-        </div>
+        </Container>
     )
 }
 
