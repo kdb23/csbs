@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useParams, useHistory} from 'react-router-dom'
 import {Button, Container, Row} from 'react-bootstrap'
 
-function PersonEdit({}) {
+function PersonEdit() {
 
     const [memberInfo, setMemberInfo] = useState([])
     const {id} = useParams()
