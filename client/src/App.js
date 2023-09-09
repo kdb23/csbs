@@ -4,6 +4,7 @@ import Home from './Home'
 import PeopleContainer from './PeopleContainer';
 import PrayerContainer from './PrayerContainer';
 import NavBar from './NavBar';
+import NewMember from './NewMember';
 
 function App() {
 
@@ -44,6 +45,9 @@ function App() {
         </Route>
         <Route exact path="/home/prayers">
           <PrayerContainer prayers={prayers} handleMemberSearch={handleMemberSearch} />
+        </Route>
+        <Route exact path="/home/new_member">
+          <NewMember />
         </Route>
       </Switch>
     </>
