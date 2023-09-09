@@ -3,10 +3,17 @@ import { useHistory } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 
 function NavigationButton() {
+
+    const history = useHistory()
+
+    const handleBack = () => {
+        history.goBack()
+    }
+
     return(
         <div>
-            <Button>
-
+            <Button onClick={handleBack}>
+                Whoops Wrong Direction...Throw It In Reverse
             </Button>
         </div>
     )
