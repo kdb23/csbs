@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom'
+import NavigationButton from "./NavigationButton";
 
 function NavBar() {
     return(
@@ -9,6 +10,7 @@ function NavBar() {
             <Link to="/home/members">MEMBERS INFORMATION HERE</Link>
             <div></div>
             <Link to="/home/prayers">PRAYER REQUESTS</Link>
+            <NavigationButton />
         </>
     )
 }
