@@ -5,6 +5,7 @@ import PeopleContainer from './PeopleContainer';
 import PrayerContainer from './PrayerContainer';
 import NavBar from './NavBar';
 import NewMember from './NewMember';
+import PersonEdit from './PersonEdit';
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
           <NewMember addMember={addMemberState} />
         </Route>
         <Route exact path="/home/members/:id">
+          <PersonEdit members={members} />
         </Route>
       </Switch>
     </>
