@@ -32,6 +32,9 @@ function App() {
 
   const handleMemberSearch = newString => setFindMember(newString.toLowerCase())
 
+  const addMemberState = (newMemberObj) => {
+    setMembers([...members, newMemberObj])
+  }
 
   return (
     <>
@@ -47,7 +50,9 @@ function App() {
           <PrayerContainer prayers={prayers} handleMemberSearch={handleMemberSearch} />
         </Route>
         <Route exact path="/home/new_member">
-          <NewMember />
+          <NewMember addMember={addMemberState} />
+        </Route>
+        <Route exact path="/home/members/:id">
         </Route>
       </Switch>
     </>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button, Container} from 'react-bootstrap'
 
-function NewMember() {
+function NewMember({addMember}) {
 
     const [addName, setAddName] = useState('')
     const [addAddress, setAddAddress] = useState('')
@@ -34,24 +34,26 @@ function NewMember() {
             }
                 return response.json()
             })
-        // .then(newMember => {
-        //     addMember(newMember)
-        //     alert('New Member has been added')
+        .then(newMember => {
+            addMember(newMember)
+            alert('New Member has been added')
+        })
         }
-        }
+    }
     
 
     return(
+        <Container>
         <div>
             <h1>New Church Member Information Here</h1>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Group>
                     <Form.Label>Member Name:</Form.Label>
                     <Form.Control
                         type = "text"
                         name = "name"
                         placeholder = "Member Name"
-                        onChnage={handleName}
+                        onChange={handleName}
                     />
                 </Form.Group>
                 <Form.Group>
@@ -75,6 +77,7 @@ function NewMember() {
                 <Button onClick={handleSubmit}>Add New Neighbor</Button>
             </Form>
         </div>
+        </Container>
     )
 }
 
