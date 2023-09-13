@@ -1,8 +1,14 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 
 from config import db, bcrypt
+
+families = db.Table('families',
+    db.Column('family_id', db.Integer, db.ForeignKey('members.id'), primary_key=True),
+    db.Column('families_id', db.Integer, db.ForeignKey('members.id'), primary_key=True)
+)
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -49,6 +55,14 @@ class Member(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
     created_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    mpinstances = db.relationship('MPInstance', backref='members')
+    prayers = association_proxy('mpiinstance', 'prayer')
+    families = db.relationship('Member',
+                             secondary = families,
+                             primaryjoin = ('families.c.family_id == Member.id'),
+                                secondaryjoin=('families.c.families_id == Member.id'),
+                                backref=db.backref('family', lazy='dynamic'), lazy='dynamic')
+
     @validates('name')
     def validate_name(self, key, value):
         if not value:
@@ -70,4 +84,13 @@ class Prayer(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
     created_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    members = association_proxy('mpinstances', 'member')
+    mpinstance = db.relationship('MPInstance', backref='member')
 
+class MPInstance(db.Model, SerializerMixin):
+    # mpinstance: member-prayer instance (one instance between a prayer and a member)
+    __tablename__ = 'mpinstances'
+
+    id = db.Column(db.Integer, primary_key=True)
+    member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
+    prayer_id = db.Column(db.Integer, db.ForeignKey('prayers.id'))
