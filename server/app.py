@@ -95,11 +95,13 @@ class Members(Resource):
         members = Member.query.all()
         member_list = []
         for m in members:
+            family_names = [linked_member.name for linked_member in m.linked_members]
             m_dict = {
                 'id': m.id,
                 'name': m.name,
                 'address': m.address,
-                'phone': m.phone
+                'phone': m.phone,
+                'families' : family_names
             }
             member_list.append(m_dict)
         return make_response(member_list, 200)
