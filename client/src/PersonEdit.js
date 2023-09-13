@@ -9,10 +9,17 @@ function PersonEdit() {
     const history = useHistory()
 
     useEffect(() => {
+        console.log('Fetching member with ID:', id); // Log the ID
         fetch(`/members/${id}`)
             .then((r) => r.json())
-            .then(setMemberInfo)
-    },[id])
+            .then((data) => {
+                console.log('Fetched member data:', data);
+                setMemberInfo(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching member information:', error);
+            });
+    }, [id]);
 
     const handleBack = () => {
         history.goBack()

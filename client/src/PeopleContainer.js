@@ -24,6 +24,7 @@ function PeopleContainer({members}) {
     const persons = filteredMembers ? filteredMembers.map((mObj) => {
         return <People
                     key = {mObj.id}
+                    id = {mObj.id}
                     name = {mObj.name}
                     address = {mObj.address}
                     phone = {mObj.phone}
