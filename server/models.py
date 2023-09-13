@@ -54,14 +54,17 @@ class Member(db.Model, SerializerMixin):
     phone = db.Column(db.Integer, nullable=False)
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
     created_at = db.Column(db.DateTime, onupdate=db.func.now())
+    linked_members = db.relationship(
+        'Member',
+        secondary=families,
+        primaryjoin=(families.c.family_id == id),
+        secondaryjoin=(families.c.families_id == id),
+        backref=db.backref('linked_by', lazy='dynamic'),
+        lazy='dynamic'
+    )
 
     mpinstances = db.relationship('MPInstance', backref='members')
     prayers = association_proxy('mpiinstance', 'prayer')
-    families = db.relationship('Member',
-                             secondary = families,
-                             primaryjoin = ('families.c.family_id == Member.id'),
-                                secondaryjoin=('families.c.families_id == Member.id'),
-                                backref=db.backref('family', lazy='dynamic'), lazy='dynamic')
 
     @validates('name')
     def validate_name(self, key, value):
