@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {useParams, useHistory} from 'react-router-dom'
 import {Button, Container, Row, Col} from 'react-bootstrap'
+import Photo from './Photo'
 
 function PersonEdit() {
 
     const [memberInfo, setMemberInfo] = useState([])
+    const [prayerInfo, setPrayerInfo] = useState([])
     const {id} = useParams()
     const history = useHistory()
 
@@ -18,6 +20,19 @@ function PersonEdit() {
             })
             .catch((error) => {
                 console.error('Error fetching member information:', error);
+            });
+    }, [id]);
+
+    useEffect(() => {
+        console.log('Fetching member with ID:', id);
+        fetch(`/prayers/${id}`)
+            .then((r) => r.json())
+            .then((data) => {
+                console.log('Fetched Prayer Request data:', data);
+                setPrayerInfo(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching prayer request information:', error);
             });
     }, [id]);
 
@@ -36,7 +51,7 @@ function PersonEdit() {
                 </Row>
                 <Col>
                     <div className='row'>
-                        <h1>Photo Here</h1>
+                        <Photo />
                     </div>
                 </Col>
                 <Col>
