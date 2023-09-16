@@ -1,9 +1,10 @@
 import React from "react";
 
-function Prayers({description}) {
+function Prayers({id,description}) {
     return(
         <div>
             <p>Request Type: {description}</p>
+            <p>Member Responsible: {id} </p>
         </div>
     )
 }

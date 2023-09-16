@@ -22,6 +22,7 @@ function PrayerContainer({prayers}) {
     const requests = filteredPrayers ? filteredPrayers.map((pObj) => {
         return <Prayers
                     key = {pObj.id}
+                    id = {pObj.id}
                     description = {pObj.description}
                 />
     }) : null
