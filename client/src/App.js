@@ -37,6 +37,12 @@ function App() {
     setMembers([...members, newMemberObj])
   }
 
+  const handleMemberDelete = (id) => {
+    setMembers(members.filter(member => {
+      return member.id !== id
+    }))
+  }
+
   return (
     <>
       <NavBar />
@@ -54,7 +60,7 @@ function App() {
           <NewMember addMember={addMemberState} />
         </Route>
         <Route exact path="/home/members/:id">
-          <PersonEdit members={members} />
+          <PersonEdit members={members} handleMemberDelete={handleMemberDelete} />
         </Route>
       </Switch>
     </>
