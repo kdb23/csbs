@@ -223,5 +223,14 @@ class MemberPrayer(Resource):
 
 api.add_resource(MemberPrayer, '/memberprayer')
 
+class MemberPrayerById(Resource):
+    def get(self, id):
+        concern = MPInstance.query.filter_by(id = id).first()
+        if not concern:
+            return make_response({'error' : "404 Member Prayer Rquest Not Found"}, 404)
+        return make_response(concern.to_dict(), 200)
+
+api.add_resource(MemberPrayerById, '/members/<int:id>/prayers')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
