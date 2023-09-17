@@ -7,11 +7,11 @@ function PersonEdit({handleMemberDelete}) {
 
     const [memberInfo, setMemberInfo] = useState([])
     const [prayerInfo, setPrayerInfo] = useState([])
+    const [error, setError] = useState(null)
     const {id} = useParams()
     const history = useHistory()
 
     useEffect(() => {
-        console.log('Fetching member with ID:', id); // Log the ID
         fetch(`/members/${id}`)
             .then((r) => r.json())
             .then((data) => {
@@ -24,7 +24,6 @@ function PersonEdit({handleMemberDelete}) {
     }, [id]);
 
     useEffect(() => {
-        console.log('Fetching member with ID:', id);
         fetch(`/prayers/${id}`)
             .then((r) => r.json())
             .then((data) => {
@@ -41,21 +40,24 @@ function PersonEdit({handleMemberDelete}) {
     }
 
     const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this Member ?"))
-        try {
-            const response = await fetch(`/members/${id}`, {
-                method: "DELETE"
-            });
-            if (response.status === 204 ) {
-                handleMemberDelete(id)
-                history.goBack()
-            } else {
-                return ('ERROR, Unable to Delete Member')
-            }
+        if (window.confirm("Are you sure you want to delete this Member ?")) {
+            try {
+                const response = await fetch(`/members/${id}`, {
+                    method: "DELETE"
+                });
+                if (response.status === 204 ) {
+                    handleMemberDelete(id)
+                    history.goBack()
+                } else {
+                    setError('ERROR: Unable to Delete Member');
+                }
             } catch (error) {
-                console.error(error)
+                console.error(error);
+                setError('An error occurred while deleting the member.');
             }
+        }
     }
+    
 
     return(
         <>
@@ -73,22 +75,24 @@ function PersonEdit({handleMemberDelete}) {
                 </Col>
                 <Col>
                     {memberInfo && (
-                        <div>
-                            <p>Name: {memberInfo.name}</p>
-                            <p>Address: {memberInfo.address}</p>
-                            <p>Phone: {memberInfo.phone}</p>
-                            <p>Family Members: {memberInfo.linked_member}</p>
-                        </div>
-                    )}
+                    <div>
+                        <p>Name: {memberInfo.name}</p>
+                        <p>Address: {memberInfo.address}</p>
+                        <p>Phone: {memberInfo.phone}</p>
+                        <p>Family Members: {memberInfo.linked_member}</p>
+                    </div>
+                )}
+                {prayerInfo && (
+                    <div>
+                        <h1>Prayer Request Container Information</h1>
+                        <p>{prayerInfo.description}</p>
+                    </div>
+                )}
                 </Col>
                 <Row>
                     <Col>
-                        <h1>Prayer Request Container Information</h1>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Button onClick={handleDelete}>REMOVE MEMBER</Button>
+                        <Button onClick={() => handleDelete(id)}>REMOVE MEMBER</Button>
+
                     </Col>
                 </Row>
             </Container>

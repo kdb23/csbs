@@ -1,6 +1,6 @@
 from config import app, api
-from models import db, User, Member, Prayer
-from flask import make_response, session, request
+from models import db, User, Member, Prayer, MPInstance
+from flask import make_response, session, request, jsonify
 from flask_restful import Resource
 from flask_bcrypt import Bcrypt
 
@@ -207,6 +207,21 @@ class PrayerById(Resource):
         return make_response( {}, 204)
     
 api.add_resource(PrayerById, '/prayer_request/<int:id>')
+
+class MemberPrayer(Resource):
+    def get(self):
+        concern = MPInstance.query.all()
+        prayer_list = []
+        for m in concern:
+            m_dict ={
+                'id' : m.id,
+                'member_id' : m.member_id,
+                'prayer_id' : m.prayer_id
+            }
+            prayer_list.append(m_dict)
+        return make_response(jsonify(prayer_list), 200)
+
+api.add_resource(MemberPrayer, '/memberprayer')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

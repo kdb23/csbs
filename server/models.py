@@ -48,6 +48,8 @@ class User(db.Model, SerializerMixin):
 class Member(db.Model, SerializerMixin):
     __tablename__ = "members"
 
+    serialize_rules = ('-created_at', '-updated_at', '-mpinstance.member', '-prayers')
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     address = db.Column(db.String)
@@ -81,6 +83,8 @@ class Member(db.Model, SerializerMixin):
 class Prayer(db.Model, SerializerMixin):
     __tablename__ = "prayers"
 
+    serialize_rules = ('-updated_at', '-created_at', '-mpinstance', '-members')
+
     id = db.Column(db.Integer, primary_key=True)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
     description = db.Column(db.String)
@@ -93,6 +97,8 @@ class Prayer(db.Model, SerializerMixin):
 class MPInstance(db.Model, SerializerMixin):
     # mpinstance: member-prayer instance (one instance between a prayer and a member)
     __tablename__ = 'mpinstances'
+
+    serialize_rules = ('-member.mpinstances', '-prayer.mpinstances')
 
     id = db.Column(db.Integer, primary_key=True)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
