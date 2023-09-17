@@ -48,7 +48,12 @@ class User(db.Model, SerializerMixin):
 class Member(db.Model, SerializerMixin):
     __tablename__ = "members"
 
-    serialize_rules = ('-created_at', '-updated_at', '-mpinstance.member', '-prayers')
+    serialize_rules = ('-created_at',
+    '-updated_at',
+    '-linked_members',
+    '-linked_by',
+    'mpinstances',
+    'prayers')
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -66,7 +71,7 @@ class Member(db.Model, SerializerMixin):
     )
 
     mpinstances = db.relationship('MPInstance', backref='members')
-    prayers = association_proxy('mpiinstance', 'prayer')
+    prayers = association_proxy('mpinstance', 'prayer')
 
     @validates('name')
     def validate_name(self, key, value):
@@ -83,7 +88,7 @@ class Member(db.Model, SerializerMixin):
 class Prayer(db.Model, SerializerMixin):
     __tablename__ = "prayers"
 
-    serialize_rules = ('-updated_at', '-created_at', '-mpinstance', '-members')
+    serialize_rules = ('-updated_at', '-created_at', 'mpinstance', 'members')
 
     id = db.Column(db.Integer, primary_key=True)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
@@ -98,8 +103,9 @@ class MPInstance(db.Model, SerializerMixin):
     # mpinstance: member-prayer instance (one instance between a prayer and a member)
     __tablename__ = 'mpinstances'
 
-    serialize_rules = ('-member.mpinstances', '-prayer.mpinstances')
+    serialize_rules = ('-member_id', '-prayer_id')
 
     id = db.Column(db.Integer, primary_key=True)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
     prayer_id = db.Column(db.Integer, db.ForeignKey('prayers.id'))
+    
