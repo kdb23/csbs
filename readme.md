@@ -15,3 +15,5 @@ able to add new members & link them to current members/family
 Prayer is into different categories and able to be removed from the list if the situation changes.
 
 Able to see the "sick list" on the homepage in order for pastoral staff to check off daily phone calls or in person visit if allowed.
+
+API of daily bible verse ?

@@ -88,7 +88,7 @@ class Member(db.Model, SerializerMixin):
 class Prayer(db.Model, SerializerMixin):
     __tablename__ = "prayers"
 
-    serialize_rules = ('-updated_at', '-created_at', 'mpinstance', 'members')
+    serialize_rules = ('-updated_at', '-created_at', 'mpinstance', 'member')
 
     id = db.Column(db.Integer, primary_key=True)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
