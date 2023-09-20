@@ -128,7 +128,7 @@ class MemberById(Resource):
         if not member:
             return make_response({'error': '404 Church Member Not Found'}, 404)
 
-        # Serialize the member without loading linked members
+        # Serialize the member's information
         m_dict = {
             'id': member.id,
             'name': member.name,
@@ -136,7 +136,13 @@ class MemberById(Resource):
             'phone': member.phone,
         }
 
+        # Check if the member has any linked family members
+        linked_family_names = [linked_member.name for linked_member in member.linked_members]
+        if linked_family_names:
+            m_dict['linked_members'] = linked_family_names
+
         return make_response(m_dict, 200)
+
     
     def patch(self, id):
         data = request.get_json()
