@@ -48,12 +48,7 @@ class User(db.Model, SerializerMixin):
 class Member(db.Model, SerializerMixin):
     __tablename__ = "members"
 
-    serialize_rules = ('-created_at',
-    '-updated_at',
-    '-linked_members',
-    '-linked_by',
-    'mpinstances',
-    'prayers')
+    serialize_rules = ('-created_at','-updated_at','-linked_members','mpinstances','prayers')
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -71,7 +66,7 @@ class Member(db.Model, SerializerMixin):
     )
 
     mpinstances = db.relationship('MPInstance', backref='members')
-    prayers = association_proxy('mpinstance', 'prayer')
+    prayers = association_proxy('mpinstances', 'prayer')
 
     @validates('name')
     def validate_name(self, key, value):
@@ -88,16 +83,16 @@ class Member(db.Model, SerializerMixin):
 class Prayer(db.Model, SerializerMixin):
     __tablename__ = "prayers"
 
-    serialize_rules = ('-updated_at', '-created_at', 'mpinstance', 'member')
+    serialize_rules = ('-updated_at', '-created_at', 'mpinstances', 'members')
 
     id = db.Column(db.Integer, primary_key=True)
-    member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
     description = db.Column(db.String)
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
     created_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    mpinstances = db.relationship('MPInstance', backref='prayer')
     members = association_proxy('mpinstances', 'member')
-    mpinstance = db.relationship('MPInstance', backref='member')
+
 
 class MPInstance(db.Model, SerializerMixin):
     # mpinstance: member-prayer instance (one instance between a prayer and a member)
