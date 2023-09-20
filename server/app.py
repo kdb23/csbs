@@ -124,10 +124,19 @@ api.add_resource(Members, '/members')
 
 class MemberById(Resource):
     def get(self, id):
-        member = Member.query.filter_by(id = id).first()
+        member = Member.query.filter_by(id=id).first()
         if not member:
             return make_response({'error': '404 Church Member Not Found'}, 404)
-        return make_response(member.to_dict(), 200)
+
+        # Serialize the member without loading linked members
+        m_dict = {
+            'id': member.id,
+            'name': member.name,
+            'address': member.address,
+            'phone': member.phone,
+        }
+
+        return make_response(m_dict, 200)
     
     def patch(self, id):
         data = request.get_json()
