@@ -51,7 +51,8 @@ class Member(db.Model, SerializerMixin):
     serialize_rules = ('-created_at','-updated_at','-linked_members','mpinstances','prayers')
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=False)
     address = db.Column(db.String)
     phone = db.Column(db.Integer, nullable=False)
     updated_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -68,10 +69,16 @@ class Member(db.Model, SerializerMixin):
     mpinstances = db.relationship('MPInstance', backref='members')
     prayers = association_proxy('mpinstances', 'prayer')
 
-    @validates('name')
+    @validates('first_name')
     def validate_name(self, key, value):
         if not value:
-            raise ValueError('Name is required to create member')
+            raise ValueError('First Name is required to create member')
+        return value
+    
+    @validates('last_name')
+    def validate_name(self, key, value):
+        if not value:
+            raise ValueError('Last Name is required to create member')
         return value
     
     @validates('phone')

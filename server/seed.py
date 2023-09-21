@@ -13,7 +13,8 @@ def make_member():
 
     for i in range(25):
         member = Member(
-            name = fake.name(),
+            first_name = fake.first_name(),
+            last_name = fake.last_name(),
             address = fake.address(),
             phone = fake.phone_number(),
         )

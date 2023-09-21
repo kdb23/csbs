@@ -98,7 +98,8 @@ class Members(Resource):
             family_names = [linked_member.name for linked_member in m.linked_members]
             m_dict = {
                 'id': m.id,
-                'name': m.name,
+                'first_name': m.first_name,
+                'last_name': m.last_name,
                 'address': m.address,
                 'phone': m.phone,
                 'families' : family_names
@@ -110,7 +111,8 @@ class Members(Resource):
         data = request.get_json()
         try:
             new_member = Member(
-                name = data['name'],
+                first_name = data['first_name'],
+                last_name = data['last_name'],
                 address = data['address'],
                 phone = data['phone']
             )
@@ -131,7 +133,8 @@ class MemberById(Resource):
         # Serialize the member's information
         m_dict = {
             'id': member.id,
-            'name': member.name,
+            'first_name': member.first_name,
+            'last_name': member.last_name,
             'address': member.address,
             'phone': member.phone,
         }
