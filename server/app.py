@@ -176,7 +176,6 @@ class Prayers(Resource):
         for p in prayers:
             p_dict = {
                 'id': p.id,
-                'member_id': p.member_id,
                 'description': p.description
             }
             prayer_list.append(p_dict)
@@ -186,7 +185,6 @@ class Prayers(Resource):
         data = request.get_json()
         try:
             new_prayer = Prayer(
-                member_id = data['member_id'],
                 description = data['description']
             )
             db.session.add(new_prayer)

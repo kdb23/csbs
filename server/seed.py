@@ -28,21 +28,17 @@ def make_prayers():
     members = Member.query.all()
     prayers = []
 
-    description = ["Unspoken", "Family Support", "Martial Issues", "Financial Concern", "Health Concern"]
+    description = ["Unspoken", "Family Support", "Marital Issues", "Financial Concern", "Health Concern"]
 
     for member in members:
-        # Check if the member already has a prayer request
-        existing_prayer = Prayer.query.filter_by(member_id=member.id).first()
-        if not existing_prayer:
-            # Generate a random description for the prayer request
-            prayer = Prayer(
-                member_id=member.id,
-                description=random.choice(description)
-            )
-            prayers.append(prayer)
+        # Generate a random description for the prayer request
+        description_for_prayer = random.choice(description)
+        prayer = Prayer(description=description_for_prayer)
+        prayers.append(prayer)
 
     db.session.add_all(prayers)
     db.session.commit()
+
 
 def make_memberprayer():
     MPInstance.query.delete()
