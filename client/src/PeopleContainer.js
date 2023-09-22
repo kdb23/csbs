@@ -12,9 +12,10 @@ function PeopleContainer({members}) {
     }
 
     const filteredMembers = members.filter((memberObj) => {
-        const phoneString = String(memberObj.phone).toLowerCas();
+        const nameString = memberObj.name ? memberObj.name.toLowerCase() : '';
+        const phoneString = String(memberObj.phone).toLowerCase();
         return (
-          memberObj.name.toLowerCase().includes(searchTerm) ||
+          nameString.toLowerCase().includes(searchTerm) ||
           phoneString.includes(searchTerm)
         );
       });    
