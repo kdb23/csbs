@@ -3,7 +3,7 @@ import {useParams, useHistory} from 'react-router-dom'
 import {Button, Container, Row, Col} from 'react-bootstrap'
 import Photo from './Photo'
 
-function PersonEdit({handleMemberDelete}) {
+function PersonEdit({handleMemberDelete, members}) {
 
     const [memberInfo, setMemberInfo] = useState([])
     const [prayerInfo, setPrayerInfo] = useState([])
@@ -63,7 +63,7 @@ function PersonEdit({handleMemberDelete}) {
         <>
             <Container>
                 <Row style={{ padding: '10px'}}>
-                    <h1 className="text-center">{memberInfo.name}</h1>
+                    <h1 className="text-center">{memberInfo.first_name}{memberInfo.last_name}</h1>
                     <div className='d-flex justify-content-end'>
                         <Button variant='secondary' onClick={handleBack}>Back</Button>
                     </div>
@@ -76,7 +76,7 @@ function PersonEdit({handleMemberDelete}) {
                 <Col>
                     {memberInfo && (
                     <div>
-                        <p>Name: {memberInfo.name}</p>
+                        <p>Name: {memberInfo.first_name} {memberInfo.last_name} </p>
                         <p>Address: {memberInfo.address}</p>
                         <p>Phone: {memberInfo.phone}</p>
                         <p>Family Members: {memberInfo.linked_member}</p>
