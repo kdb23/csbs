@@ -12,7 +12,7 @@ function PeopleContainer({members}) {
     }
 
     const filteredMembers = members.filter((memberObj) => {
-        const phoneString = String(memberObj.phone).toLowerCase();
+        const phoneString = String(memberObj.phone).toLowerCas();
         return (
           memberObj.name.toLowerCase().includes(searchTerm) ||
           phoneString.includes(searchTerm)

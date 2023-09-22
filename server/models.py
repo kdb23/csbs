@@ -70,19 +70,19 @@ class Member(db.Model, SerializerMixin):
     prayers = association_proxy('mpinstances', 'prayer')
 
     @validates('first_name')
-    def validate_name(self, key, value):
+    def validate_first_name(self, key, value):
         if not value:
             raise ValueError('First Name is required to create member')
         return value
     
     @validates('last_name')
-    def validate_name(self, key, value):
+    def validate_last_name(self, key, value):
         if not value:
             raise ValueError('Last Name is required to create member')
         return value
     
     @validates('phone')
-    def validate_name(self, key, value):
+    def validate_phone(self, key, value):
         if not value:
             raise ValueError('Phone number is required to create member')
         return value
@@ -110,4 +110,5 @@ class MPInstance(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
     prayer_id = db.Column(db.Integer, db.ForeignKey('prayers.id'))
+
     
