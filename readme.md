@@ -4,7 +4,7 @@ react for front end
 
 python for back end...with faker for data
 
-each member has name, phone number, address 
+each member has name (first and last), phone number, address, and family members 
     -family that connects along with prayer request that can be updated
     -model to update information for members
 
